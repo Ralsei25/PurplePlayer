@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Audioplayer.Views.ControlPanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Audioplayer.Views"
+             mc:Ignorable="d" 
+             MinWidth="400"
+             d:DesignHeight="100" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibitityConverter" />
+            <BooleanToVisibilityConverter x:Key="BoolToHidenConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Grid.Column="0" Grid.Row="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Slider Grid.Row="0" Grid.ColumnSpan="5" Value="{Binding Position, Mode=TwoWay}" Minimum="0" Maximum="1"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Height="64" Width="64" Margin="5" Padding="5" Cursor="Hand" Command="{Binding PlayPauseCommand}">
+                <Grid>
+                    <Image Source="/Resources/play.png" Visibility="{Binding Path=IsPause, 
+                                                                         Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <Image Source="/Resources/Pause.png" Visibility="{Binding Path=IsPlaying, 
+                                                                          Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Grid>
+            </Button>
+
+            <Button Height="64" Width="64" Margin="5" Padding="5" Command="{Binding StopCommand}" >
+                <Image Source="/Resources/stop.png" />
+            </Button>
+
+
+            <RepeatButton Height="64" Width="64" Margin="5" Padding="5" Command="{Binding RewindCommand}" CommandParameter="-5" >
+                <Image Source="/Resources/rewind_back.png" />
+            </RepeatButton>
+            <RepeatButton Height="64" Width="64" Margin="5" Padding="5" Command="{Binding RewindCommand}" CommandParameter="5">
+                <Image Source="/Resources/rewind_forward.png" />
+            </RepeatButton>
+            <TextBlock Margin="5" Text="{Binding PositionDuration}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <StackPanel Grid.Column="3" Grid.Row="2" VerticalAlignment="Center">
+                <Slider Grid.Row="2" Grid.Column="3" Value="{Binding Volume, Mode=TwoWay}" VerticalAlignment="Center" Minimum="0" Maximum="1"/>
+                <Button Margin="4" Width="100" Command="{Binding MuteUnmuteCommand}">
+                    <Grid>
+                        <TextBlock Text="Mute" Visibility="{Binding Path=IsUnmute, 
+                                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock Text="Unmute" Visibility="{Binding Path=IsMute, 
+                                                                Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
